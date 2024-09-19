@@ -87,12 +87,12 @@
       </AnchorPane>
       <AnchorPane layoutX="207.0" layoutY="7.0" prefHeight="523.0" prefWidth="628.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;">
          <children>
-            <TableView layoutX="2.0" layoutY="85.0" prefHeight="383.0" prefWidth="610.0">
+            <TableView fx:id="goalTable" layoutX="2.0" layoutY="85.0" prefHeight="383.0" prefWidth="610.0">
               <columns>
-                <TableColumn prefWidth="187.1999969482422" text="Goal Description" />
-                  <TableColumn prefWidth="104.0" text="Amount" />
-                  <TableColumn prefWidth="83.20001220703125" text="From" />
-                  <TableColumn prefWidth="95.99993896484375" text="To" />
+                <TableColumn fx:id="descriptionColumn" prefWidth="187.1999969482422" text="Goal Description" />
+                  <TableColumn fx:id="amountColumn" prefWidth="104.0" text="Amount" />
+                  <TableColumn fx:id="fromDateColumn" prefWidth="83.20001220703125" text="From" />
+                  <TableColumn fx:id="toDateColumn" prefWidth="95.99993896484375" text="To" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
