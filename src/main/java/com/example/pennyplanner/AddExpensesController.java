@@ -163,13 +163,7 @@ public class AddExpensesController {
             }
         }
 
-        @FXML
-        private void handleUpdate(ActionEvent event) {
-            if (selectedExpense != null) {
-                // Open dialog or another window to update the selected expense (not implemented here)
-                // After updating, refresh the table by calling `loadExpensesData()`
-            }
-        }
+
 
         @FXML
         private void ExportExp(ActionEvent event) {
@@ -315,6 +309,49 @@ public class AddExpensesController {
                 e.printStackTrace();
             }
         }
+    @FXML
+    public void BackAddExpense (ActionEvent event) {
+        try {
+            // Load the dashboard FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Addexpense1.fxml"));
+            Parent root = loader.load();
+
+
+            // Get the current stage
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            // Set the scene to the dashboard
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void UpdateButton(ActionEvent event) {
+
+    }
+    @FXML
+    public void handleUpdate(ActionEvent event) {
+        // Your update logic here
+        try {
+            // Load the dashboard FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("updateexpense.fxml"));
+            Parent root = loader.load();
+
+
+            // Get the current stage
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            // Set the scene to the dashboard
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

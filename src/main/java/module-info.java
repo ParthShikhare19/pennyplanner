@@ -6,7 +6,7 @@ module com.example.pennyplanner {
     requires java.desktop;
     requires org.apache.poi.poi;
     requires org.apache.poi.ooxml;
-    requires mysql.connector.j;
+    requires java.mail;
 
 
     opens com.example.pennyplanner to javafx.fxml;

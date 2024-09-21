@@ -124,7 +124,7 @@ public class Goal1Controller {
         String password = "oracle";
 
         try (Connection conn = DriverManager.getConnection(dbURL, username, password)) {
-            String query = "SELECT Goal_desc , Goal_amt ,Date_frpm , Date_to  FROM goals";
+            String query = "SELECT Goal_desc , Goal_amt ,Date_from , Date_to  FROM goal_info";
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
@@ -155,9 +155,9 @@ public class Goal1Controller {
     }
 
     private void deleteGoalFromDatabase(Goal goal) {
-        String dbURL = "jdbc:mysql://localhost:3306/pennyplanner";
+        String dbURL = "jdbc:mysql://localhost:3306/pennyplannerdb";
         String username = "root";
-        String password = "";
+        String password = "oracle";
 
         try (Connection conn = DriverManager.getConnection(dbURL, username, password)) {
             String query = "DELETE FROM goals WHERE description = ?";
