@@ -22,12 +22,6 @@ public class SettingsController {
 
 
 
-
-    // Load user data from the database
-    public void initialize() {
-
-        Database();
-    }
     public class Database {
         // Database connection details
         private static final String URL = "jdbc:mysql://localhost:3306/pennyplannerdb"; // Update with your database URL
@@ -36,8 +30,12 @@ public class SettingsController {
 
         public static Connection getConnection() throws SQLException {
             return DriverManager.getConnection(URL, USER, PASSWORD);
-            loadUserData();
-        }
+
+            // Load user data from the database
+    public void initialize() {
+        loadUserData();
+    }
+    }
 
     private void loadUserData() {
         // Database connection and loading logic (mocked for example)
