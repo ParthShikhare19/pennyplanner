@@ -285,11 +285,39 @@ public class SettingsController {
     }
 
     // Button action for confirming account deletion
-    @FXML
-    private void confirmDeleteAccount(ActionEvent event) {
-        System.out.println("Deleting account");
-        // Add logic to handle account deletion
-    }
+  @FXML
+  private void confirmDeleteAccount() {
+      String username = usernameField.getText();
+      String url = "jdbc:mysql://localhost:3306/pennyplannerdb";
+      String user = "root";
+      String password = "oracle";
+
+      if (username.isEmpty()) {
+          showErrorMessage("Error", "Username field is empty.");
+          return;
+      }
+
+      String query = "DELETE FROM user_info WHERE User_ID = ?";
+
+      try  {
+          int userId = UserSession.getUserId();
+          PreparedStatement preparedStatement = connection.prepareStatement(query);
+          preparedStatement.setInt(1,userId); // Replace with dynamic user ID logic
+          ResultSet resultSet = preparedStatement.executeQuery();
+          preparedStatement.setString(1, String.valueOf(userId));
+
+          int rowsAffected = preparedStatement.executeUpdate();
+          if (rowsAffected > 0) {
+              showSuccessMessage("Success", "Your account has been deleted.");
+              // Optionally, log the user out or redirect to the login page after deletion
+          } else {
+              showErrorMessage("Error", "Account not found or could not be deleted.");
+          }
+
+      } catch (SQLException e) {
+          showErrorMessage("Database Error", "An error occurred while deleting your account: " + e.getMessage());
+      }
+  }
 
     // Handle role change between Admin and Member
     @FXML
@@ -356,6 +384,20 @@ public class SettingsController {
             return userId; // Return the user ID (or -1 if not found)
 
         }
+    }
+    private void showErrorMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    private void showSuccessMessage(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 }
