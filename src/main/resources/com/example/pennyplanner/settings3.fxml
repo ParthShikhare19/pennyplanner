@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="849.0" style="-fx-background-color: #191970;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pennyplanner.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="542.0" prefWidth="849.0" style="-fx-background-color: #191970;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pennyplanner.UpdateUsernameController">
    <children>
       <VBox layoutY="159.0" prefHeight="383.0" prefWidth="42.0" style="-fx-background-color: #191970;">
          <children>
@@ -96,13 +96,13 @@
                   <Font size="23.0" />
                </font>
             </Text>
-            <TextField layoutX="14.0" layoutY="136.0" prefHeight="26.0" prefWidth="336.0" promptText="username" style="-fx-background-radius: 20;" />
+            <TextField fx:id="oldUsernameField" layoutX="14.0" layoutY="136.0" prefHeight="26.0" prefWidth="336.0" promptText="username" style="-fx-background-radius: 20;" />
             <Text fill="MIDNIGHTBLUE" layoutX="14.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter new username:">
                <font>
                   <Font size="23.0" />
                </font>
             </Text>
-            <TextField layoutX="14.0" layoutY="222.0" prefHeight="26.0" prefWidth="336.0" promptText="username" style="-fx-background-radius: 20;" />
+            <TextField fx:id="newUsernameField" layoutX="14.0" layoutY="222.0" prefHeight="26.0" prefWidth="336.0" promptText="username" style="-fx-background-radius: 20;" />
             <Button layoutX="263.0" layoutY="467.0" mnemonicParsing="false" onAction="#ApplyUsername" prefHeight="32.0" prefWidth="106.0" style="-fx-background-color: #ffc107;" text="Apply">
                <font>
                   <Font size="15.0" />

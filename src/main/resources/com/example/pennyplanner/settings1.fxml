@@ -3,8 +3,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -85,7 +85,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="221.0" layoutY="9.0" prefHeight="523.0" prefWidth="628.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;">
+      <AnchorPane layoutX="221.0" layoutY="10.0" prefHeight="522.0" prefWidth="620.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10;">
          <children>
             <Text fill="MIDNIGHTBLUE" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings">
                <font>
@@ -99,7 +99,6 @@
                </font>
             </Text>
             <Button layoutX="490.0" layoutY="105.0" mnemonicParsing="false" onAction="#editName" prefHeight="32.0" prefWidth="106.0" style="-fx-background-color: #ffc107;" text="Edit Name" />
-            <ScrollBar layoutX="610.0" layoutY="80.0" orientation="VERTICAL" prefHeight="438.0" prefWidth="14.0" />
             <Text fill="MIDNIGHTBLUE" layoutX="-2.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Username :">
                <font>
                   <Font size="30.0" />
@@ -129,8 +128,11 @@
             <Label fx:id="usernameField" layoutX="190.0" layoutY="167.0" prefHeight="26.0" prefWidth="156.0" text="Label" />
             <Label fx:id="emailField" layoutX="193.0" layoutY="269.0" prefHeight="26.0" prefWidth="156.0" text="Label" />
             <Label fx:id="passwordField" layoutX="193.0" layoutY="217.0" prefHeight="26.0" prefWidth="156.0" text="Label" />
-            <RadioButton fx:id="adminRadio" layoutX="243.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleRoleChange" text="Admin" />
-            <RadioButton fx:id="memberRadio" layoutX="346.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleRoleChange" text="Member" />
+            <RadioButton fx:id="adminRadio" layoutX="243.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleRoleChange" text="Admin">
+               <toggleGroup>
+                  <ToggleGroup fx:id="adminOrMember" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="memberRadio" layoutX="346.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleRoleChange" text="Member" toggleGroup="$adminOrMember" />
          </children>
       </AnchorPane>
    </children>

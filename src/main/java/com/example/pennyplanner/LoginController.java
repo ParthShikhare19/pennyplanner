@@ -25,6 +25,8 @@ public class LoginController {
     @FXML
     private PasswordField TxtPass;
 
+    private static String username;
+
     // Database URL, username, and password
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/pennyplannerdb";
     private static final String DATABASE_USER = "root";
@@ -33,8 +35,9 @@ public class LoginController {
     // Event handler for the "Login" button
     @FXML
     private void Login(ActionEvent event) {
-        String username = TxtUname.getText();
+         username = TxtUname.getText();
         String password = TxtPass.getText();
+
 
         if (validateLogin(username, password)) {
             try {
@@ -57,6 +60,9 @@ public class LoginController {
         } else {
             showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or password.");
         }
+    }
+    public static String getUserName () {
+        return username;
     }
 
     // Method to validate user login
