@@ -33,7 +33,7 @@
       </AnchorPane>
    </left>
    <right>
-      <AnchorPane prefHeight="400.0" prefWidth="401.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="400.0" prefWidth="401.0" style="-fx-background-color: white;" stylesheets="@buttons.css" BorderPane.alignment="CENTER">
          <children>
             <Text fill="MIDNIGHTBLUE" layoutX="123.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SIGN UP">
                <font>
@@ -45,7 +45,7 @@
                   <Image url="@user%20(2).png" />
                </image>
             </ImageView>
-            <Text fill="MIDNIGHTBLUE" layoutX="23.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+            <Text fill="MIDNIGHTBLUE" layoutX="11.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
                <font>
                   <Font size="22.0" />
                </font>
@@ -60,22 +60,22 @@
             </Button>
             <PasswordField fx:id="TxtPass" layoutX="178.0" layoutY="208.0" prefHeight="26.0" prefWidth="207.0" promptText="Password" style="-fx-background-radius: 20;" />
             <PasswordField fx:id="TxtVerifyPass" layoutX="178.0" layoutY="235.0" prefHeight="26.0" prefWidth="207.0" promptText="Password" style="-fx-background-radius: 20;" />
-            <Text fill="MIDNIGHTBLUE" layoutX="13.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+            <Text fill="MIDNIGHTBLUE" layoutX="11.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="MIDNIGHTBLUE" layoutX="16.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+            <Text fill="MIDNIGHTBLUE" layoutX="11.0" layoutY="229.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="MIDNIGHTBLUE" layoutX="11.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Verify Password">
+            <Text fill="MIDNIGHTBLUE" layoutX="11.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Verify Password">
                <font>
                   <Font size="22.0" />
                </font>
             </Text>
-            <Text fill="MIDNIGHTBLUE" layoutX="21.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email-ID">
+            <Text fill="MIDNIGHTBLUE" layoutX="11.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email-ID">
                <font>
                   <Font size="22.0" />
                </font>

@@ -15,6 +15,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class SettingsController {
@@ -32,13 +34,24 @@ public class SettingsController {
     private Label passwordField;
 
     @FXML
+    private Label homeidfield;
+
+    @FXML
     private RadioButton adminRadio;
 
     @FXML
     private RadioButton memberRadio;
 
     private Connection connection;
-    private static String username=LoginController.getUserName();
+
+    private static String username=LoginController.getUserName() ;
+    @FXML
+    private Label Uemail;
+
+    @FXML
+    private Label Uname;
+
+    //private static String username =LoginController.getUserName();
     // Database connection
     public void connectToDatabase() {
         try {
@@ -50,13 +63,35 @@ public class SettingsController {
             e.printStackTrace();
         }
     }
+    public void showUnameAndUmail()
+    {
+        connectToDatabase();
+        try {
+            // Assuming userId is passed when the user logs in
+            int userId = SettingsController.UserSession.getUserId();
+            String query = "SELECT User_Name,User_Email FROM user_info WHERE User_ID = ?";
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pennyplannerdb", "root", "oracle");
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Uname.setText(resultSet.getString("User_Name"));
+                Uemail.setText(resultSet.getString("User_Email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     // Fetch user data from the database and display it
     @FXML
     private void loadUserData() {
         connectToDatabase();
-        String query = "SELECT name, User_Name, User_Email, User_Pass FROM user_info WHERE User_ID = ?";
+        String query = "SELECT name, User_Name, User_Email, User_Pass,home_Id FROM user_info WHERE User_ID = ?";
         try {
+            username =LoginController.getUserName();
             int userId = UserSession.getUserId();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1,userId); // Replace with dynamic user ID logic
@@ -67,16 +102,14 @@ public class SettingsController {
                 usernameField.setText(resultSet.getString("User_Name"));
                 emailField.setText(resultSet.getString("User_Email"));
                 passwordField.setText(resultSet.getString("User_Pass"));
+                homeidfield.setText(resultSet.getString("home_Id"));
+                System.out.println(resultSet.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                // connection.close();
             }
         }
     }
@@ -84,7 +117,9 @@ public class SettingsController {
     // Initialize method to load user data on screen load
     @FXML
     public void initialize() {
+        showUnameAndUmail();
         loadUserData();
+
     }
 
     // Button action for switching to the Dashboard
@@ -94,6 +129,25 @@ public class SettingsController {
         try {
             // Load the dashboard FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+            Parent root = loader.load();
+
+            // Get the current stage
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+            // Set the scene to the dashboard
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void Settings1toAboutus(ActionEvent event) {
+        // Code to switch to dashboard scene
+        try {
+            // Load the dashboard FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AboutUs.fxml"));
             Parent root = loader.load();
 
             // Get the current stage
@@ -285,49 +339,73 @@ public class SettingsController {
     }
 
     // Button action for confirming account deletion
-  @FXML
-  private void confirmDeleteAccount() {
-      String username = usernameField.getText();
-      String url = "jdbc:mysql://localhost:3306/pennyplannerdb";
-      String user = "root";
-      String password = "oracle";
+    @FXML
+    private void confirmDeleteAccount() {
+        String username = LoginController.getUserName();
+        String url = "jdbc:mysql://localhost:3306/pennyplannerdb";
+        String user = "root";
+        String password = "oracle";
 
-      if (username.isEmpty()) {
-          showErrorMessage("Error", "Username field is empty.");
-          return;
-      }
+        if (username.isEmpty()) {
+            showErrorMessage("Error", "Username field is empty.");
+            return;
+        }
 
-      String query = "DELETE FROM user_info WHERE User_ID = ?";
+        String query = "DELETE FROM user_info WHERE User_Name = ?";
 
-      try  {
-          int userId = UserSession.getUserId();
-          PreparedStatement preparedStatement = connection.prepareStatement(query);
-          preparedStatement.setInt(1,userId); // Replace with dynamic user ID logic
-          ResultSet resultSet = preparedStatement.executeQuery();
-          preparedStatement.setString(1, String.valueOf(userId));
+        try  {
+            int userId = UserSession.getUserId();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,username); // Replace with dynamic user ID logic
+            // ResultSet resultSet = preparedStatement.executeQuery(query);
+            //preparedStatement.setString(1, String.valueOf(userId));
 
-          int rowsAffected = preparedStatement.executeUpdate();
-          if (rowsAffected > 0) {
-              showSuccessMessage("Success", "Your account has been deleted.");
-              // Optionally, log the user out or redirect to the login page after deletion
-          } else {
-              showErrorMessage("Error", "Account not found or could not be deleted.");
-          }
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                showSuccessMessage("Success", "Your account has been deleted.");
+                // Optionally, log the user out or redirect to the login page after deletion
+            } else {
+                showErrorMessage("Error", "Account not found or could not be deleted.");
+            }
 
-      } catch (SQLException e) {
-          showErrorMessage("Database Error", "An error occurred while deleting your account: " + e.getMessage());
-      }
-  }
+        } catch (SQLException e) {
+            showErrorMessage("Database Error", "An error occurred while deleting your account: " + e.getMessage());
+        }
+
+    }
 
     // Handle role change between Admin and Member
     @FXML
-    private void handleRoleChange(ActionEvent event) {
+    private void handleRoleChange(ActionEvent event) throws SQLException {
         if (adminRadio.isSelected()) {
-            System.out.println("Role changed to Admin");
+            int homeId = generateRandomHomeId();
+            // Store homeId in database (e.g., in users table)
+            storeHomeIdInDatabase(homeId);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Home ID Generated");
+            alert.setHeaderText(null);
+            alert.setContentText("Generated Home ID: " + homeId);
+            alert.showAndWait();
         } else if (memberRadio.isSelected()) {
-            System.out.println("Role changed to Member");
+            // Allow user to enter home ID for validation
+            // You can prompt for input in a dialog or provide a text field
+            // For simplicity, let's assume you have a method to prompt for the home ID
+            String homeId = promptForHomeId();
+            if (isHomeIdValid(homeId)) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Home ID Valid");
+                alert.setHeaderText(null);
+                storeHomeIdInDatabase(Integer.parseInt(homeId));
+                alert.setContentText("Home ID is valid.");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Home ID Invalid");
+                alert.setHeaderText(null);
+                alert.setContentText("Home ID does not exist in the database.");
+                alert.showAndWait();
+            }
         }
-        // Add logic to update role in the database
     }
     public class UserSession {
         private static int userId;
@@ -399,5 +477,59 @@ public class SettingsController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    private int generateRandomHomeId() {
+        Random rand = new Random();
+        return 1000 + rand.nextInt(9000); // Generate a random 4-digit number
+    }
+    private void storeHomeIdInDatabase(int homeId) throws SQLException {
+        // Replace with your actual database connection details
+        String url = "jdbc:mysql://localhost:3306/pennyplannerdb";
+        String user = "root";
+        String password = "oracle";
+        connection = DriverManager.getConnection(url, user, password);
+        String sql = "UPDATE user_info SET home_ID = ? WHERE User_ID = ?"; // Adjust as necessary
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, homeId);
+            pstmt.setInt(2, UserSession.getUserId()); // Replace with actual user ID retrieval
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private boolean isHomeIdValid(String homeId) {
+        // Replace with your actual database connection details
+        String url = "jdbc:mysql://localhost:3306/pennyplannerdb";
+        String user = "root";
+        String password = "oracle";
+        String sql = "SELECT COUNT(*) FROM user_info WHERE home_ID = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, homeId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Return true if home ID exists
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Home ID does not exist
+    }
+    private String promptForHomeId() {
+        // Here you can implement a dialog or prompt to enter the home ID
+        // For example, using a TextInputDialog
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Enter Home ID");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Please enter your Home ID:");
+
+
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse("");
+    }
+
+
 
 }

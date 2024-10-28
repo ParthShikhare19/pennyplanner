@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ public class LoginController {
 
     @FXML
     private PasswordField TxtPass;
+
 
     private static String username;
 
@@ -41,7 +43,10 @@ public class LoginController {
 
         if (validateLogin(username, password)) {
             try {
+                // Assuming you set the userID when the user logs in
+                Session.getInstance().setUserID(username);
                 // Load the dashboard FXML
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
                 Parent root = loader.load();
 
@@ -68,6 +73,7 @@ public class LoginController {
     // Method to validate user login
     private boolean validateLogin(String username, String password) {
         String query = "SELECT * FROM user_info WHERE User_Name = ? AND User_Pass = ?";
+
 
         try (Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {

@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -24,9 +25,47 @@ public class UpdateUsernameController {
 
     @FXML
     private TextField newUsernameField;
+    @FXML
+    private Label Uemail;
+
+    @FXML
+    private Label Uname;
 
     @FXML
     private Button ApplyUsername;
+    public void showUnameAndUmail()
+    {
+        connectToDatabase();
+        try {Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pennyplannerdb", "root", "oracle");
+            // Assuming userId is passed when the user logs in
+            int userId = SettingsController.UserSession.getUserId();
+            String query = "SELECT User_Name,User_Email FROM user_info WHERE User_ID = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Uname.setText(resultSet.getString("User_Name"));
+                Uemail.setText(resultSet.getString("User_Email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void connectToDatabase() {
+        try {
+            // Replace with your own database connection details
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pennyplannerdb", "root", "oracle");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void initialize()
+    {
+        showUnameAndUmail();
+    }
+
 
     private Connection connect() {
         // Replace with your MySQL database credentials
@@ -102,6 +141,7 @@ public class UpdateUsernameController {
             e.printStackTrace();
         }
     }
+
 
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

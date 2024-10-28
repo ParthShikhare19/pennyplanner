@@ -22,6 +22,7 @@ import java.util.Random;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.Session;
 
 public class ForgotPassController {
 
@@ -48,6 +49,10 @@ public class ForgotPassController {
             showAlert(AlertType.ERROR, "Error", "Email field cannot be empty.");
             return;
         }
+        if (!isValidEmail(email)) {
+            showAlert(AlertType.ERROR, "Error", "Please enter a valid email address.");
+            return;
+        }
 
         // Check if email exists in the database
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
@@ -66,11 +71,10 @@ public class ForgotPassController {
                 // Send email with the new password
                 sendEmail(email, newPassword);
 
-                showAlert(AlertType.INFORMATION, "Success", "A new password has been sent to your email.");
+                // Show success alert with password to the user
+                showAlert(AlertType.INFORMATION, "Success", "Your new password is sent to your email" );
 
-            }
-            else
-            {
+            } else {
                 showAlert(AlertType.ERROR, "Error", "Email is not registered.");
             }
 
@@ -112,7 +116,7 @@ public class ForgotPassController {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", "email-smtp.ap-south-1.amazonaws.com:587");
+        properties.put("mail.smtp.host", "email-smtp.ap-south-1.amazonaws.com");
         properties.put("mail.smtp.port", "587");
 
         // Create a session with the email credentials
@@ -125,7 +129,7 @@ public class ForgotPassController {
         try {
             // Create the email
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(EMAIL_USER));
+            message.setFrom(new InternetAddress("tayyabali@dbit.in"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
             message.setSubject("Password Reset - Penny Planner");
             message.setText("Your new password is: " + newPassword);
@@ -150,14 +154,14 @@ public class ForgotPassController {
     @FXML
     private void Back(ActionEvent event) {
         try {
-            // Load the forgot password FXML
+            // Load the dashboard FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = loader.load();
 
             // Get the current stage
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
-            // Set the scene to the forgot password page
+            // Set the scene to the dashboard
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -165,4 +169,10 @@ public class ForgotPassController {
             e.printStackTrace();
         }
     }
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email.matches(emailRegex);
+    }
 }
+
+

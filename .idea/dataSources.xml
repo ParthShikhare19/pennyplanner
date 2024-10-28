@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="pennyplannerdb@localhost" uuid="80f1db36-45b3-469d-b8a3-2b43b2c040a3">
+    <data-source source="LOCAL" name="pennyplannerdb@localhost" uuid="37792042-b4e8-4272-989f-17232d39a1cb">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

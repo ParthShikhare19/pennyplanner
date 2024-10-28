@@ -1,10 +1,7 @@
 package com.example.pennyplanner;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,6 +52,12 @@ public class SignupController {
 
         if (!password.equals(verifyPassword)) {
             showAlert(Alert.AlertType.ERROR, "Form Error", "Passwords do not match.");
+            return;
+        }
+
+        // Check if the username is already taken
+        if (isUsernameTaken(username)) {
+            showAlert(Alert.AlertType.ERROR, "Registration Failed", "Username is already taken. Please choose another username.");
             return;
         }
         // Insert data into the database
@@ -138,4 +141,25 @@ public class SignupController {
             e.printStackTrace();
         }
     }
+    private boolean isUsernameTaken(String username) {
+        String query = "SELECT COUNT(*) FROM user_info WHERE User_Name = ?";
+
+        try (Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // If count > 0, username exists
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Username not found
+    }
+
 }
